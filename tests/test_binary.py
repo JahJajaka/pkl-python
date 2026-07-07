@@ -21,7 +21,10 @@ def remove_pkl_from_path(monkeypatch):
 
 def remove_pkl_binary():
     path = Path(pkl.__file__)
-    ls = list((path.parent / "bin").iterdir())
+    bin_dir = path.parent / "bin"
+    if not bin_dir.exists():
+        return
+    ls = list(bin_dir.iterdir())
     if len(ls) == 0:
         return
     assert len(ls) == 1
