@@ -1,0 +1,7 @@
+// Parity fixture for pkl.IntSeq decoding (README type mapping: IntSeq -> pkl.IntSeq).
+// Construction semantics per https://pkl-lang.org/package-docs/pkl/current/base/IntSeq.html:
+// IntSeq(start, end) defaults step=1; .step(n) overrides it.
+module intseq
+
+res1: IntSeq = IntSeq(2, 5)
+res2: IntSeq = IntSeq(5, 2).step(-2)

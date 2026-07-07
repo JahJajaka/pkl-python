@@ -1,0 +1,15 @@
+// Parity fixture for pkl.Dynamic decoding (README type mapping: Dynamic -> dataclass).
+// Properties and entries decode into one flat namespace on the Dynamic dataclass;
+// nested Dynamic values recurse the same way. (Mixing elements with
+// properties/entries on one Dynamic is deliberately out of scope here --
+// pkl-python's parser rejects that shape by design, see Parser.parse_typed_dynamic.)
+module dynamic
+
+res1: Dynamic = new {
+  a = "a"
+  b {
+    c = 1
+    d = 2
+  }
+  ["e"] = 3
+}

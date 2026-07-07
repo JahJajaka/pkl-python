@@ -1,0 +1,10 @@
+// Parity fixture for Pkl's Bytes type (wire code 0x0F, added in Pkl 0.29 / documented
+// in the 0.30.0 binary-encoding spec). List(...).toBytes() per
+// https://pkl-lang.org/package-docs/pkl/current/base/List.html#toBytes
+//
+// pkl-python does not decode this wire code yet on this baseline -- see
+// tests/parity/test_value_parity.py::test_bytes for the tracked gap (PR #16 /
+// branch sync/pkl-0.30.0-bytes-decoding upstream already has the fix, not yet merged).
+module bytes
+
+res1: Bytes = List(1, 2, 3).toBytes()

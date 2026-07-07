@@ -1,0 +1,7 @@
+// Parity fixture for pkl.Regex decoding (README type mapping: Regex -> pkl.Regex).
+// Regex(pattern).pattern == pattern, per
+// https://pkl-lang.org/package-docs/pkl/current/base/Regex.html
+module regex
+
+res1: Regex = Regex("a.b")
+res2: Regex = Regex("[0-9]+")
