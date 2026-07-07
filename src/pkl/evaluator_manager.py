@@ -277,6 +277,12 @@ class EvaluatorManager:
         del opt_dict["moduleReaders"]
         del opt_dict["resourceReaders"]
 
+        # repl:text is the URI of the module used to hold expressions; it must
+        # always be allowed (matches pkl-go's buildEvaluatorOptions). This also
+        # guarantees allowedModules is non-empty, since the pkl server refuses
+        # to build a security manager when both allowlists are empty.
+        opt_dict["allowedModules"] = (opt_dict["allowedModules"] or []) + ["repl:text"]
+
         create_evaluator = CreateEvaluator(
             requestId=requestId, project=project, **opt_dict
         )

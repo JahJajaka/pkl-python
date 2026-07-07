@@ -5,6 +5,8 @@ import subprocess
 
 import msgpack
 
+from pkl.utils import PklError
+
 
 def preexec_function():
     # Cause the child process to be terminated when the parent exits
@@ -67,10 +69,25 @@ class PKLServer:
         self.stdin.flush()
 
     def _read(self, stream):
-        msg = None
-        while msg is None:
+        while True:
             msg = stream.read()
-        return msg
+            if msg is None:
+                # Non-blocking stream with no data available yet; keep polling.
+                continue
+            if msg == b"":
+                # A real EOF: the pkl server closed the stream (e.g. it crashed
+                # while handling our request). Without this check, `stream.read()`
+                # keeps returning b"" forever and the caller spins indefinitely.
+                raise PklError(self._closed_stream_error())
+            return msg
+
+    def _closed_stream_error(self):
+        returncode = self.process.poll()
+        stderr = (self.stderr.read() or b"").decode(errors="replace").strip()
+        message = f"pkl server closed its output stream unexpectedly (exit code {returncode})"
+        if stderr:
+            message += f"\n{stderr}"
+        return message
 
     def _receive(self, stream):
         while True:
