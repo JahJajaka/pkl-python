@@ -3,7 +3,7 @@ from pathlib import Path
 
 import requests
 
-VERSION = "0.25.2"
+VERSION = "0.30.0"
 
 BASE_PATH = "https://github.com/apple/pkl/releases/download/"
 filenames = [

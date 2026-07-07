@@ -38,6 +38,7 @@ CODE_INTSEQ = 0xA
 CODE_REGEX = 0xB
 CODE_CLASS = 0xC
 CODE_TYPEALIAS = 0xD
+CODE_BYTES = 0xF
 CODE_PROPERTY = 0x10
 CODE_ENTRY = 0x11
 CODE_ELEMENT = 0x12
@@ -114,6 +115,7 @@ class Parser:
             CODE_REGEX: self.parse_regex,
             CODE_CLASS: self.parse_class,
             CODE_TYPEALIAS: self.parse_typealias,
+            CODE_BYTES: self.parse_bytes,
             CODE_PROPERTY: self.parse_property,
             CODE_ENTRY: self.parse_entry,
             CODE_ELEMENT: self.parse_element,
@@ -155,7 +157,7 @@ class Parser:
         return dynamic_class
 
     def parse_typed_dynamic(self, obj):
-        _, full_class_name, module_uri, members = obj
+        full_class_name, module_uri, members = obj[1], obj[2], obj[3]
 
         member_types = set(m[0] for m in members)
         property_list = list(map(self.handle_type, members))
@@ -202,7 +204,7 @@ class Parser:
         return set(obj[1])
 
     def parse_duration(self, obj):
-        _, value, unit = obj
+        value, unit = obj[1], obj[2]
 
         return Duration(value, unit)
 
@@ -224,14 +226,17 @@ class Parser:
     def parse_typealias(self, obj):
         return
 
+    def parse_bytes(self, obj):
+        return obj[1]
+
     def parse_property(self, obj):
-        _, key, value = obj
+        key, value = obj[1], obj[2]
         return {key: self.handle_type(value)}
 
     def parse_entry(self, obj):
-        _, key, value = obj
+        key, value = obj[1], obj[2]
         return {key: self.handle_type(value)}
 
     def parse_element(self, obj):
-        _, index, value = obj
+        index, value = obj[1], obj[2]
         return {index: self.handle_type(value)}

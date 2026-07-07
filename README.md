@@ -116,6 +116,7 @@ While in pre-release they are subject to change.
 | Any              | `typing.Any`               |
 | Unions (A\|B\|C) | `typing.Union[A\|B\|C]`    |
 | Regex            | `pkl.Regex`                |
+| Bytes            | `bytes`                    |
 
 ## Contributing
 Contributions are welcome! If you'd like to contribute, please fork the repository and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
